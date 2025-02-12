@@ -18,6 +18,8 @@ function App() {
   useEffect(() => {
     fetchBets();
     fetchSnowfall();
+    const interval = setInterval(fetchSnowfall, 60000); // Refresh snowfall every 60 seconds
+    return () => clearInterval(interval);
   }, []);
 
   const fetchBets = async () => {
@@ -81,38 +83,35 @@ function App() {
       <div className="container">
         <h2>How much snow will Chicago get?</h2>
         <div className="app-area">
-          <div className="form-area">
-            {/* Bet Submission Form */}
-            <form onSubmit={submitBet}>
-              <h3 id="form-title">Make your guess</h3>
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              <input
-                type="number"
-                placeholder="Inches of Snow"
-                value={inches}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (
-                    value === "" ||
-                    (parseFloat(value) >= 0 && parseFloat(value) <= 12)
-                  ) {
-                    setInches(value);
-                  }
-                }}
-                max="12"
-                min="0"
-                step="0.1"
-                required
-              />
-              <button type="submit">Submit</button>
-            </form>
+          <div className="leaderboard">
+            <h3>❄️ Current Snowfall ❄️</h3>
+            <div>{snowfall} in</div>
+            <h3>🏆 Leaderboard</h3>
+            <ul className="top-bets">
+              {Object.entries(bets)
+                .map(([inches, names]) => ({
+                  inches: parseFloat(inches),
+                  names,
+                  difference: Math.abs(snowfall - parseFloat(inches)), // Calculate closeness
+                }))
+                .sort((a, b) => a.difference - b.difference) // Sort by closest guess
+                .slice(0, 5) // Take only the top 5 bets
+                .map((bet, index) => (
+                  <li key={index}>
+                    {index === 0
+                      ? "🥇"
+                      : index === 1
+                      ? "🥈"
+                      : index === 2
+                      ? "🥉"
+                      : "🏅"}{" "}
+                    {bet.names.join(", ")} - {bet.inches}" (
+                    {bet.difference.toFixed(2)}" off)
+                  </li>
+                ))}
+            </ul>
           </div>
+
           <div
             id="ruler-area"
             style={{
