@@ -35,9 +35,18 @@ app.get("/bets", async (req, res) => {
 
 const https = require("https");
 
-let totalSnowfall = 0; // Store accumulated snowfall
+const fs = require("fs");
+const FILE_PATH = "./snowfall.json";
 
-// Endpoint to get cumulative snowfall
+let totalSnowfall = 0;
+let lastRecordedSnowfall = 0;
+
+if (fs.existsSync(FILE_PATH)) {
+  const data = JSON.parse(fs.readFileSync(FILE_PATH, "utf8"));
+  totalSnowfall = data.totalSnowfall || 0;
+  lastRecordedSnowfall = data.lastRecordedSnowfall || 0;
+}
+
 app.get("/snowfall", async (req, res) => {
   try {
     const agent = new https.Agent({ rejectUnauthorized: false });
@@ -51,9 +60,18 @@ app.get("/snowfall", async (req, res) => {
 
     const currentSnowfall = response.data.current.precip_in;
 
-    if (currentSnowfall > 0) {
-      totalSnowfall += currentSnowfall;
+    if (currentSnowfall > lastRecordedSnowfall) {
+      const difference = currentSnowfall - lastRecordedSnowfall;
+      totalSnowfall += difference;
     }
+
+    lastRecordedSnowfall = currentSnowfall;
+
+    fs.writeFileSync(
+      FILE_PATH,
+      JSON.stringify({ totalSnowfall, lastRecordedSnowfall }),
+      "utf8"
+    );
 
     console.log("Updated Total Snowfall:", totalSnowfall);
 
