@@ -71,6 +71,7 @@ body::before {
     .top-bets {
       text-align: left;
       margin-top: 0px;
+      list-style-type: none;
     }
   }
 }
