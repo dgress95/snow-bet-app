@@ -27,7 +27,8 @@ body {
   background: url("/src/assets/chicago-winter.webp") no-repeat center center
     fixed;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,6 +60,8 @@ body::before {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
+  overflow: auto;
 }
 
 .app-area {
@@ -77,6 +80,14 @@ body::before {
 }
 
 @media only screen and (max-width: 600px) {
+  .container {
+    margin-top: 150px;
+    margin-bottom: 50px;
+  }
+
+  #form-title {
+    font-size: 25px;
+  }
   .app-area {
     margin: 20px;
     margin-top: 10px;

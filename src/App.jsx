@@ -37,7 +37,8 @@ function App() {
   const fetchSnowfall = async () => {
     try {
       const { data } = await axios.get(`${API_BASE_URL}/snowfall`);
-      setSnowfall(data.hourlyData[data.hourlyData.length - 1].snowfall);
+      setSnowfall(data.totalSnowfall);
+      console.log(data.totalSnowfall);
     } catch (error) {
       console.error("Error fetching snowfall data:", error);
     }
@@ -171,6 +172,10 @@ function App() {
                 }}
                 onMouseEnter={() => setHoveredSnowfall(true)}
                 onMouseLeave={() => setHoveredSnowfall(false)}
+                onMouseDown={() => setHoveredSnowfall(true)}
+                onMouseUp={() => setHoveredSnowfall(false)}
+                onTouchStart={() => setHoveredSnowfall(true)}
+                onTouchEnd={() => setHoveredSnowfall(false)}
               >
                 {/* Tooltip for Snowfall */}
                 {hoveredSnowfall && (
@@ -219,6 +224,10 @@ function App() {
                   }}
                   onMouseEnter={() => setHoveredBet({ inches, names })}
                   onMouseLeave={() => setHoveredBet(null)}
+                  onMouseDown={() => setHoveredBet({ inches, names })}
+                  onMouseUp={() => setHoveredBet(null)}
+                  onTouchStart={() => setHoveredBet({ inches, names })}
+                  onTouchEnd={() => setHoveredBet(null)}
                 >
                   {/* Tooltip */}
                   {hoveredBet && hoveredBet.inches === inches && (
