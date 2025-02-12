@@ -40,6 +40,7 @@ function App() {
     try {
       const { data } = await axios.get(`${API_BASE_URL}/snowfall`);
       setSnowfall(data.totalSnowfall);
+      createSnowflakes();
       console.log(data.totalSnowfall);
     } catch (error) {
       console.error("Error fetching snowfall data:", error);
