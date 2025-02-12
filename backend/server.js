@@ -35,32 +35,29 @@ app.get("/bets", async (req, res) => {
 
 const https = require("https");
 
-// Endpoint to get snowfall
+let totalSnowfall = 0; // Store accumulated snowfall
+
+// Endpoint to get cumulative snowfall
 app.get("/snowfall", async (req, res) => {
   try {
     const agent = new https.Agent({ rejectUnauthorized: false });
 
     const response = await axios.get(
-      `https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=Chicago&days=1`,
+      `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=Chicago`,
       { httpsAgent: agent }
     );
 
-    console.log("Weather API Response:", response.data);
-    const formatTime = (timeStr) => {
-      let [hour, minute] = timeStr.split(":").map(Number);
-      let ampm = hour >= 12 ? "PM" : "AM";
-      hour = hour % 12 || 12; // Convert 0 to 12
-      return `${hour}:${minute.toString().padStart(2, "0")} ${ampm}`;
-    };
+    console.log("Weather API Current Data:", response.data);
 
-    const hourlyData = response.data.forecast.forecastday[0].hour.map(
-      (hour) => ({
-        time: formatTime(hour.time.split(" ")[1]), // Convert "14:00" → "2:00 PM"
-        snowfall: hour.precip_in,
-      })
-    );
+    const currentSnowfall = response.data.current.precip_in;
 
-    res.json({ hourlyData });
+    if (currentSnowfall > 0) {
+      totalSnowfall += currentSnowfall;
+    }
+
+    console.log("Updated Total Snowfall:", totalSnowfall);
+
+    res.json({ totalSnowfall });
   } catch (error) {
     console.error("Error fetching snowfall data:", error.message);
     res.status(500).json({ error: "Failed to fetch snowfall data" });
