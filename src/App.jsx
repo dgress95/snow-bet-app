@@ -86,7 +86,7 @@ function App() {
         <div className="app-area">
           <div className="leaderboard">
             <h3>❄️ Current Snowfall ❄️</h3>
-            <div>0.6 in</div>
+            <div>1.63 in</div>
             <h3>🏆 Leaderboard</h3>
             <ul className="top-bets">
               {Object.entries(bets)
@@ -164,7 +164,7 @@ function App() {
                 style={{
                   width: "50px",
                   // height: `${(snowfall / maxSnowfall) * 100}%`,
-                  height: "4.166%",
+                  height: "13.58%",
                   background: "rgba(0, 129, 173, 0.47)",
                   transition: "height 0.5s ease-in-out",
                   position: "relative",
@@ -194,7 +194,7 @@ function App() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    ❄️ 0.6 inches
+                    ❄️ 1.63 inches
                   </div>
                 )}
               </div>
