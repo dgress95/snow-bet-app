@@ -86,7 +86,7 @@ function App() {
         <div className="app-area">
           <div className="leaderboard">
             <h3>❄️ Current Snowfall ❄️</h3>
-            <div>{snowfall} in</div>
+            <div>0.6 in</div>
             <h3>🏆 Leaderboard</h3>
             <ul className="top-bets">
               {Object.entries(bets)
@@ -106,8 +106,7 @@ function App() {
                       : index === 2
                       ? "🥉"
                       : "🏅"}{" "}
-                    {bet.names.join(", ")} - {bet.inches}" (
-                    {bet.difference.toFixed(2)}" off)
+                    {bet.names.join(", ")} - {bet.inches}"
                   </li>
                 ))}
             </ul>
@@ -164,7 +163,8 @@ function App() {
               <div
                 style={{
                   width: "50px",
-                  height: `${(snowfall / maxSnowfall) * 100}%`,
+                  // height: `${(snowfall / maxSnowfall) * 100}%`,
+                  height: "4.166%",
                   background: "rgba(0, 129, 173, 0.47)",
                   transition: "height 0.5s ease-in-out",
                   position: "relative",
