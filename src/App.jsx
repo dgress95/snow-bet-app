@@ -194,7 +194,7 @@ function App() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    ❄️ {snowfall} inches
+                    ❄️ 0.6 inches
                   </div>
                 )}
               </div>
