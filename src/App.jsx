@@ -85,7 +85,7 @@ function App() {
         <h2>How much snow will Chicago get?</h2>
         <div className="app-area">
           <div className="leaderboard">
-            <h3>❄️ Current Snowfall ❄️</h3>
+            <h3>❄️ Total Snowfall ❄️</h3>
             <div>1.63 in</div>
             <h3>🏆 Leaderboard</h3>
             <ul className="top-bets">
